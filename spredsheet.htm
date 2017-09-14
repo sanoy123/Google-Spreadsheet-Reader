@@ -1,0 +1,46 @@
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sheetrock/1.1.4/dist/sheetrock.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" type="text/css">
+</head>
+<body>
+
+<table id="statistics" class="table table-condensed table-striped"></table>
+<br>
+<ol id="hr">
+  <script id="hr-template" type="text/x-handlebars-template">
+    <li>
+      <strong>{{cells.StudentName}} {{cells.Gender}}</strong>,
+      {{cells.ClassLevel}}, {{cells.HomeState}}
+    </li>
+  </script>
+</ol>
+
+
+  <script>
+      var mySpreadsheet = 'https://docs.google.com/spreadsheets/d/1O3HHGloDGqPs82EOmTtvMNOiNeCjbwqgSN1akfVfRKg/edit?usp=sharing/export?gid=0&format=csv';
+      // Load an entire worksheet.
+      $('#statistics').sheetrock({
+        url: mySpreadsheet
+      });
+
+      // Compile the Handlebars template for HR leaders.
+var HRTemplate = Handlebars.compile($('#hr-template').html());
+
+// Load top five HR leaders.
+$('#hr').sheetrock({
+  url: mySpreadsheet,
+  query: "select A,B,C,D,E,F,G,H,I,J,K,L,M,N",
+  fetchSize: 5,
+  rowTemplate: HRTemplate
+});
+
+
+
+  </script>
+
+
+</body>
+</html>
